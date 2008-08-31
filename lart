@@ -1,0 +1,95 @@
+#!/usr/bin/python
+"""Less Awful Resume Tool.
+
+If you read Steve Yegge's "Ten Tips for a (Slightly) Less Awful
+Resume" (currently found at:
+http://steve-yegge.blogspot.com/2007/09/ten-tips-for-slightly-less-awful-resume.html),
+you'll notice that he lists various words and phrases that you should
+avoid using in your resume.  This is a simple tool that searches a
+text file (ideally your resume) for those words and phrases and alerts
+you to their presence.
+"""
+
+__author__ = "Bryan Murdock <bmurdock@gmail.com>"
+__date__ = "Sat Aug 30 21:24:55 2008"
+__version__ = "0.9"
+__copyright__ = """
+Any copyright is dedicated to the Public Domain.
+http://creativecommons.org/licenses/publicdomain/
+"""
+
+# Future Enhancement Ideas:
+#
+# it would be cool if each word found displayed a link to the relevant
+# section of the blog entry.
+# 
+# it would be even cooler if each word found displayed the actual
+# paragraph where yegge expounds upon said word.
+#
+
+from optparse import OptionParser
+
+awful_words_and_warnings = {
+    'Nobody Cares About You' :
+        [ 'hobbies' ],
+
+    'Check, please! spell-check, grammar-check, style-check: common mistakes' :
+        [ 'curriculum vitae', 'cv', 'lead', 'utilize', 'lips' ],
+
+    'Avoid Weasel Words' :
+        [ 'participated', 'proposed', 'analyzed', 'studied', 'learned',
+          'observed', 'watched', 'tech lead', 'designed', 'advocated' ],
+
+    'Avoid Wank Words' :
+        [ 'rational uml process', 'architect', 'advocate', 'consultant',
+          'methodologist', 'scrum master', 'senior'],
+
+    'Don\'t be a Certified Loser' :
+        [ 'certified' ],
+
+    'Don\'t say "expert" unless you really mean it' :
+        [ 'expert' ],
+
+    'Don\'t tip your hand' :
+        [ 'eager to learn', 'fast learner', 'motivated' ]
+    }
+
+# these are anti-errors, should we even check for them?  Maybe in a
+# different phase or option of the linter
+# productivity_words = ( 'coded', 'implemented', 'developed', 'delivered',
+#                        'launched' )
+
+######################################################################
+
+def main():
+    usage = """Usage: %prog [options] filename
+
+Where filename is a text version of a resume you wish to check for
+awfulness.  Run pydoc on the lart executable for more information."""
+    parser = OptionParser( usage=usage, version="%prog " + __version__ )
+    (options, args) = parser.parse_args()
+
+    if len(args) != 1:
+        parser.error("no filename found on command-line")
+
+    filename = args[0]
+    try:
+        file = open( filename, 'r' )
+    except IOError:
+        parser.error( 'unable to find or open file, "%s"' % filename )
+
+    line_no = 0
+    for line in file:
+        line_no += 1
+        all_lowercase = line.lower()
+        for category, awful_words in awful_words_and_warnings.items():
+            for awful_word in awful_words:
+                position = all_lowercase.find( awful_word )
+                if position != -1:
+                    print '%s:%d: Found "%s" in resume: %s' % (
+                        filename, line_no, awful_word, category )
+
+    print "\n  Resume analysis complete.  DYHAQFM?"
+
+if __name__ == "__main__":
+    main()
