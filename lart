@@ -23,8 +23,9 @@ http://creativecommons.org/licenses/publicdomain/
 # it would be cool if each word found displayed a link to the relevant
 # section of the blog entry.
 # 
-# it would be even cooler if each word found displayed the actual
-# paragraph where yegge expounds upon said word.
+# it might be even cooler if each word found just displayed the actual
+# paragraph where yegge expounds upon said word, so the lazy among us
+# wouldn't even have to open a browser.
 #
 
 from optparse import OptionParser
