@@ -1,0 +1,9 @@
+Less Awful Resume Tool.
+
+If you read Steve Yegge's "Ten Tips for a (Slightly) Less Awful
+Resume" (currently found at:
+http://steve-yegge.blogspot.com/2007/09/ten-tips-for-slightly-less-awful-resume.html),
+you'll notice that he lists various words and phrases that you should
+avoid using in your resume.  This is a simple tool that searches a
+text file (ideally your resume) for those words and phrases and alerts
+you to their presence.
